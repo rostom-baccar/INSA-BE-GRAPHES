@@ -1,3 +1,8 @@
+/*
+ * Rostom BACCAR
+ * 26 Mars 2021
+ */
+
 package org.insa.graphs.gui.simple;
 
 import java.awt.BorderLayout;
