@@ -1,3 +1,4 @@
+//rostom
 package org.insa.graphs.model;
 
 import java.util.ArrayList;
@@ -51,10 +52,10 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
+    	//cette fonction retourne le path le plus court qui passe par tous les noeuds donnés en paramètre
         List<Arc> arcs = new ArrayList<Arc>();
         // TODO:
         return new Path(graph, arcs);
@@ -198,10 +199,32 @@ public class Path {
      * 
      * @return true if the path is valid, false otherwise.
      * 
-     * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
+    	//1er cas: path vide
+    	if (this.isEmpty()) {
+    		return true;
+    	}
+    	//2eme cas: contient un seul noeud sans arcs
+    	//remarque: this est une variable de même type que la classe sur laquelle on travaille.
+    	//ici, elle représente donc un path
+    	else if (this.size()==1) {
+    		return true;
+    	}
+    	//3eme cas: premier arc est l'origine du path
+    	//pour deux arcs consécutifs: le bout de l'un est l'origine de l'autre
+    	else {
+    		Node noeud_origine=this.getOrigin(); //origine d'un path est un noeud
+    		for ( Arc A:this.arcs) {
+    		//on parcourt tous les arcs: il faut que pour deux arcs consécutifs, le bout de l'un soit l'origine de l'autre
+    		//on retourne false si l'origine du path est différente de l'origine du premier arc
+    			if(!noeud_origine.equals(A.getOrigin())) {
+    				return false ; 
+    			}
+    			//on met à jour le noeud pour passer aux deux arcs consécutifs suivants
+    			noeud_origine=A.getDestination();
+    		}
+    	}
         return false;
     }
 
@@ -210,11 +233,15 @@ public class Path {
      * 
      * @return Total length of the path (in meters).
      * 
-     * @deprecated Need to be implemented.
+     
      */
     public float getLength() {
-        // TODO:
-        return 0;
+    	float L=0;
+        //afin de calculer la longueur totale, on parcourt tous les arcs intermédiaires
+        for (Arc A:this.arcs) {
+        	L+=A.getLength();
+        }
+        return L;
     }
 
     /**
@@ -225,11 +252,17 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+    	//on calcule le temps qu'on prend à parcourir un path avec une certaine vitesse
+    	float L=getLength(); //longueur
+        double T=0; //temps
+        //la vitesse est en kmh
+        //on la divise par 3.6 pour qu'elle soit en mps
+        //on aura donc le temps en secondes
+        double V=speed/3.6; //vitesse en mps
+        T=L/V; //temps=longueur/vitesse
+        return T;
     }
 
     /**
@@ -238,11 +271,16 @@ public class Path {
      * 
      * @return Minimum travel time to travel this path (in seconds).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+    	//pour connaître le temps minimum sur un certain path on additionne les temps minimums qu'on
+    	//passe sur chaque arc avec la même fonction getMinimumTravelTime
+    	double Tmin=0; //init du temps minimum
+    	//on parcourt tous les arcs
+    	for (Arc A:this.arcs) {
+    		Tmin+=A.getMinimumTravelTime();
+    	}
+        return Tmin;
     }
 
 }
