@@ -31,12 +31,48 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        //1er cas: pas de noeuds
+        if(nodes.size() == 0) {
+        	return new Path(graph) ;  //rien à retourner pour Arc car on n'a pas de noeuds
+        }
+        //2eme cas: un seul noeud
+        else if (nodes.size()==1) {
+        	return new Path(graph, nodes.get(0)); //on retourne le noeud en question
+        }
+        //3eme cas: 2 noeuds ou plus (on peut ainsi parler de path. S'il n'y en a qu'un, c'est par défaut le plus rapide
+        else {
+        	//parcours des noeuds
+        	for (int i=0; i<nodes.size()-1; i++) 
+        	{
+        		Arc Arc_retenu = null;
+        				//on explore la liste des arcs de chaque noeud et on retient celui qui est le plus rapide
+        				
+        			for (Arc A : nodes.get(i).getSuccessors()){
+        				//dans le cas ou un arc reboucle sur le même noeud: on prend cet arc comme init si l'arc n'a pas encore de valeur
+ 	        		if (A.getDestination() == nodes.get(i+1)){
+ 	        			
+ 	        			if (Arc_retenu == null){
+ 	        				Arc_retenu = A;
+ 	        			//sinon on prend l'arc le plus rapide	
+ 	        			}else if (A.getMinimumTravelTime() < Arc_retenu.getMinimumTravelTime() ) {
+ 	        				Arc_retenu = A; //recherche et màj de l'arc le plus rapide
+ 	        			}
+ 	        		}
+ 	        	}
+        			//on renvoie une erreur si on ne trouve pas d'arc
+        			if (Arc_retenu == null) {
+     	        		throw new IllegalArgumentException();
+     	        		
+     	        	}else{
+     	        		//sinon on ajoute l'arc retenu à la liste des arcs retenus du path le plus rapide
+     	        		arcs.add(Arc_retenu);
+     	        	}
+        	}
+        }
         return new Path(graph, arcs);
     }
 
@@ -57,7 +93,45 @@ public class Path {
             throws IllegalArgumentException {
     	//cette fonction retourne le path le plus court qui passe par tous les noeuds donnés en paramètre
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        //1er cas: pas de noeuds
+        if (nodes.size()==0) {
+        	return new Path(graph); //rien à retourner pour arcs
+        }
+        //2eme cas: un seul noeud
+        else if (nodes.size()==1) {
+        	return new Path(graph, nodes.get(0)); //on retourne le noeud en question
+        }
+        else {
+        	//parcours des noeuds
+        	 for (int i = 0; i < nodes.size()-1; i++)
+ 	        {
+        		 Arc Arc_retenu = null ; 
+        		//on explore la liste des arcs de chaque noeud et on retient celui qui est le plus court
+ 	        	for (Arc A : nodes.get(i).getSuccessors()){
+ 	        		//dans le cas ou un arc reboucle sur le même noeud: on prend cet arc comme init si l'arc n'a pas encore de valeur
+ 	        		if (A.getDestination() == nodes.get(i+1)){
+ 	        			
+ 	        			if (Arc_retenu == null){
+ 	        				Arc_retenu = A; 
+ 	        				//sinon on prend l'arc le plus court
+ 	        			}else if (A.getLength() < Arc_retenu.getLength()) {
+ 	        				Arc_retenu=A; //recherche et màj de l'arc le plus court
+ 	        			}
+ 	        		}
+ 	        	}
+ 	        	//on renvoie une erreur si on ne trouve pas d'arc
+ 	        	if (Arc_retenu == null) {
+ 	        		throw new IllegalArgumentException();
+ 	        		
+ 	        	}else{
+ 	        		//sinon on ajoute l'arc retenu à la liste des arcs retenus du path le plus court
+ 	        		arcs.add(Arc_retenu);
+ 	        	}
+ 	        }
+        } 	
+        //3eme cas: 2 noeuds ou plus 
+        //Même raisonnement appliqué à la recherche le l'arc le plus rapide
+        //avec dans ce cas le choix de l'arc le plus court
         return new Path(graph, arcs);
     }
 
@@ -225,7 +299,7 @@ public class Path {
     			noeud_origine=A.getDestination();
     		}
     	}
-        return false;
+        return true;
     }
 
     /**
