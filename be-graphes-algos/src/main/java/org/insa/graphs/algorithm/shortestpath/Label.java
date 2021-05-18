@@ -2,7 +2,7 @@ package org.insa.graphs.algorithm.shortestpath;
 
 import org.insa.graphs.model.*;//pour reconnaître la classe arc (et autres)
 
-public class Label {
+public class Label implements Comparable<Label>{
 	
 	//le label de chaque noeud pourra nous donner toutes les infos dont on a besoin
 	//lors de l'écriture de l'algo de Dijkstra
@@ -36,7 +36,7 @@ public class Label {
 		return this.marque;
 	}
 
-	public void setMarque(boolean marque) { //modifié
+	public void setMarque_true() {
 		this.marque = true;
 	}
 
@@ -55,5 +55,10 @@ public class Label {
 	public void setPère(Arc père) {
 		this.père = père;
 	}
+	
+	@Override
+    public int compareTo(Label other) {
+        return Double.compare(getCost(), other.getCost());
+    }
 
 }
