@@ -117,6 +117,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 		        				destination_iter.setPère(arc_courant);
 		        				//on place le noeud destination de l'arc dans le tas
 		        				tas.insert(destination_iter);
+		        				System.out.println("Cout label courant: " +destination_iter.getCost());
 		        			}
 	        		}
         		}
