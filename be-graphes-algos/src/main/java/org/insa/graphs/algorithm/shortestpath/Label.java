@@ -2,7 +2,7 @@ package org.insa.graphs.algorithm.shortestpath;
 
 import org.insa.graphs.model.*;//pour reconnaître la classe arc (et autres)
 
-public class Label implements Comparable<Label>{
+public class Label implements Comparable<Label>{//pour la fonction compareTo
 	
 	//le label de chaque noeud pourra nous donner toutes les infos dont on a besoin
 	//lors de l'écriture de l'algo de Dijkstra
@@ -16,7 +16,7 @@ public class Label implements Comparable<Label>{
 	private Arc père; //il vaut mieux stocker l'arc que le sommet d'après le sujet
 	
 	//constructeur
-	public Label (Node sommet_courant) {
+	public Label (Node sommet_courant) { //pas besoin de spécifier les autres attributs, on connait déjà leur init
 		this.sommet_courant=sommet_courant;
 		this.marque=false; //init: le sommet n'est pas marqué quand il est créé
 		this.coût= Double.POSITIVE_INFINITY; //init: le coût initial d'un sommet est l'infini
@@ -54,6 +54,10 @@ public class Label implements Comparable<Label>{
 
 	public void setPère(Arc père) {
 		this.père = père;
+	}
+	
+	public double getTotalCost() {
+		return this.getCost();
 	}
 	
 	@Override
