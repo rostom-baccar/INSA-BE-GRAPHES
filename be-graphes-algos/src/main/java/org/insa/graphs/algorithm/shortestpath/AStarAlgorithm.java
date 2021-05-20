@@ -14,9 +14,8 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     //on redéfinit la fonction labels_init définie dans la classe DijkstraAlgorithm
     //pour créer cette fois un tableau de labels star de taille nbr_noeuds 
     
-    @Override
     protected Label[] labels_init() {
- 	   LabelStar labels_star[] = new LabelStar[nbr_noeuds] ;
+ 	   LabelStar labels[] = new LabelStar[nbr_noeuds] ;
  	   List<Node> nodes = graphe.getNodes();
  	   
  	   double Cost = 0;
@@ -26,7 +25,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
  	   Point DestinationP = data.getDestination().getPoint() ; 
  	   
  	   for (Node node : nodes) {
- 		  labels_star[node.getId()] = new LabelStar(node);
+ 		  labels[node.getId()] = new LabelStar(node);
  		   
  		   // the cost is the distance between this point and the destination point, in meters
  		   if(data.getMode() == AbstractInputData.Mode.LENGTH) {
@@ -36,9 +35,9 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
  	       	} else {
  	       		Cost = node.getPoint().distanceTo(DestinationP) / data.getMaximumSpeed(); 
  	       	}
- 		  labels_star[node.getId()].set_vol_oiseau(Cost);
+ 		  labels[node.getId()].set_vol_oiseau(Cost);
  	   }
- 	   return labels_star ; 
+ 	   return labels ; 
      }
     
     
