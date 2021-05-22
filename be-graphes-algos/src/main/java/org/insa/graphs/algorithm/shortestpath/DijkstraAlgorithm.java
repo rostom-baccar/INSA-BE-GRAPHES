@@ -118,6 +118,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 		        				//on place le noeud destination de l'arc dans le tas
 		        				tas.insert(destination_iter);
 		        				System.out.println("Cout label courant: " +destination_iter.getCost());
+		        				System.out.println("Cout label courant: " +destination_iter.getTotalCost()); //pour A*
 		        				
 		        				//test de la validité du tas
 		        				if (tas.isValid()) {
