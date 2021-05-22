@@ -145,8 +145,17 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     		throw new ElementNotFoundException(x);
     	}
     	//sinon on identifie l'index de l'élément à supprimer
-    	else {
-    		index=this.array.indexOf(x);
+    	else { 
+    		/* Index of x without using indexOf() */
+	    	try {
+	    		for(int i=0; i<this.size();i++) {
+	    			if(this.array.get(i).equals(x))
+	    				index = i;
+	    		}
+	    	/* if x not found, index set to -1 */
+	    	}catch(EmptyPriorityQueueException e) {
+	    		index = -1;
+	    	}
     	}
     	//si l'élément n'existe pas on renvoie également une erreur
     	if(index == -1) {
@@ -154,8 +163,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     	}
     	//une fois l'index de l'élément identifié, on associe son index au dernier élément de l'arbre
     	//on récupère le dernier élément:
-    	int index_dernier_element=this.currentSize-1; //car on commence de 0
-    	E dernier_element=this.array.get(index_dernier_element);
+    	E dernier_element= this.array.get(--this.currentSize);
     	this.arraySet(index, dernier_element);
     	//enfin, une fois la structure de l'arbre respecté, on applique la règle du père et des fils:
     	//un père doit avoir une priorité supérieure ou égale à ses fils
@@ -165,6 +173,43 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     	this.percolateUp(index);
 		this.percolateDown(index);
     	
+    }
+    
+    //fonction renvoyant true si le tas est valide et false sinon
+    //un tas valide est un tas qui respecte la règle du père et du fils citée précedemment:
+    //un père doit avoir une priorité supérieure ou égale à ses fils (dans ce cas, le père a un coût plus petit ou
+    //égal que ses fils)
+    public boolean isValid() {
+    	//variable booléenne: true si le tas est valide et false sinon
+    	boolean tas_valide = false ; 
+    	
+    	//pour ne pas faire planter le programme, on considère qu'un tas vide est valdie
+    	if (this.isEmpty()) {
+    		tas_valide = true ; 
+    	} 
+    	else {
+    		//on remet la variable à true pour tester la validité du tas
+    		//on s'arrête quand la variable a changé en false ou bien quand on a 
+    		//parcouru tout le tas
+    		tas_valide = true ; 
+    		int i=0;
+    		while (tas_valide == true && i<=this.currentSize) {
+    			//on analyse l'index des fils de chaque noeud
+    			//on voit s'ils suivent la règle
+    			
+    			//fils gauche:
+    			if (indexLeft(i)<this.currentSize && indexLeft(i)<i) {
+    				tas_valide=false;
+    			}
+    			
+    			//fils droit:
+    			if ((indexLeft(i)+1)<this.currentSize && (indexLeft(i)+1)<i) {
+    				tas_valide=false;
+    			}
+    			i++;
+    		}
+    	}
+    	return tas_valide ; 
     }
 
     @Override

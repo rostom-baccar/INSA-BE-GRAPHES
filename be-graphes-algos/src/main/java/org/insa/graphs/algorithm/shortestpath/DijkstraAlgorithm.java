@@ -118,6 +118,11 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 		        				//on place le noeud destination de l'arc dans le tas
 		        				tas.insert(destination_iter);
 		        				System.out.println("Cout label courant: " +destination_iter.getCost());
+		        				
+		        				//test de la validité du tas
+		        				if (tas.isValid()) {
+		        					System.out.println("Le tas est valide") ; 
+		        				}
 		        			}
 	        		}
         		}
@@ -162,13 +167,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             
             
             //Création de la solution finale à partir de la liste des arcs créée
-            Path path = new Path(graphe, arcs) ; 
+            Path chemin_final = new Path(graphe, arcs) ; 
             
             //On teste si le chemin créé est valide avant de créer la solution finale
-            if(path.isValid()) {
+            if(chemin_final.isValid()) {
             	
                 //on crée la solution finale
-                solution = new ShortestPathSolution(data, Status.OPTIMAL, path);
+                solution = new ShortestPathSolution(data, Status.OPTIMAL, chemin_final);
+                System.out.println("Le chemin est valide") ; 
+                System.out.println(chemin_final.getLength()) ;
                 
             } else {
             	System.out.println("Le chemin n'est pas valide") ; 
