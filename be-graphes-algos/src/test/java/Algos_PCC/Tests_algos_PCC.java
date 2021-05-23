@@ -38,7 +38,8 @@ public class Tests_algos_PCC {
 	private static ArrayList<Node> nodesCarre;
 	
 	//solutions des algos
-	protected static ShortestPathSolution solution1;
+	protected static ShortestPathSolution 
+	solution_dijkstra,solution_astar,solution_bellman;
 	
 	//import de chemins pour le test
 	protected static Path path ; 
@@ -60,23 +61,52 @@ public class Tests_algos_PCC {
 		//paramètres test 1: les 3 algos renvoient le même résultat
 		//on commence par choisir une origine et une destination au hasard
 		
+		Random rand = new Random(); 
+		Node noeud_origine = nodesCarre.get(rand.nextInt(nodesCarre.size()));
+		Node noeud_destination = nodesCarre.get(rand.nextInt(nodesCarre.size()));
+		
+		//init du path qui commence du noeud_origine
+		path = new Path(graphCarre, noeud_origine);
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		//Origine et Destinations randoms
+			//MODE 0
+				//PCC 
+		ShortestPathData random_pcc0 = new ShortestPathData(graphCarre, noeud_origine, noeud_destination, ArcInspectorFactory.getAllFilters().get(0));
+				//Dijsktra 
+		DijkstraAlgorithm random_dijkstra0 = new DijkstraAlgorithm(random_pcc0);
+		solution_dijkstra = random_dijkstra0.doRun();
+				//AStar
+		AStarAlgorithm random_astar0 = new AStarAlgorithm(random_pcc0) ; 
+		solution_astar = random_astar0.doRun();
+				//Bellman Ford
+		BellmanFordAlgorithm random_bellman0 = new BellmanFordAlgorithm(random_pcc0);
+		solution_bellman =  random_bellman0.doRun();
 		
 		
 	}
+	
+	//TESTS
+	
+	//Origine et Destinations randoms
+		//MODE 0
+			//Dijkstra: test validité du path + même solution que Bellman
+	@Test
+	public void algo_dijkstra() {
+		assertTrue(solution_dijkstra.getPath().isValid()) ;
+		assertTrue(Math.abs(solution_dijkstra.getPath().getLength() - solution_bellman.getPath().getLength()) == 0);
+		
+	}
+			//AStar: test validité du path + même solution que Bellman
+	@Test
+	public void algo_astar() {
+		assertTrue(solution_astar.getPath().isValid()) ;
+		assertTrue(Math.abs(solution_astar.getPath().getLength() - solution_bellman.getPath().getLength()) == 0);
+	}
+		
+		
+		
+	
 	
 	
 	
