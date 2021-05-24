@@ -74,7 +74,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         //Cette boucle tourne tant que le sommet destination n'est pas marqué ET tant que le tas n'est pas vide 
         //çad 
         //Cette boucle s'arrête quand le sommet destination est marqué OU quand le tas est vide 
-        while (!label_destination.getMarque() && !tas.isEmpty() && solution == null ) {
+        while (!label_destination.getMarque() && !tas.isEmpty() ) {
         	
         	//On extrait l'élément du tas avec le coût minimal: ça va être le label origine
         	label_courant = tas.deleteMin() ; 
@@ -161,7 +161,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             }else {
             
             
-            //On reconstitue le cheminc créé:
+            //On reconstitue le chemin créé:
             //On crée une liste contenant tous les arcs menants à la destination
         	ArrayList<Arc> arcs = new ArrayList<>();
         	

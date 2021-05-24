@@ -1,7 +1,7 @@
 package org.insa.graphs.algorithm.shortestpath;
 import org.insa.graphs.model.Node;
 
-public class LabelStar extends Label implements Comparable<Label> {
+public class LabelStar extends Label  {
 	
 	protected double coût_vol_oiseau ; 
 	
@@ -26,14 +26,4 @@ public class LabelStar extends Label implements Comparable<Label> {
 	public void set_vol_oiseau(double coût_vol_oiseau) {
         this.coût_vol_oiseau = coût_vol_oiseau;
     } 
-		
-	//fonction comparant le trajet à vol d'oiseau de deux labels différents pour en choisir un
-	//en cas d'égalité de coût depuis l'origine
-    public int compareTo(LabelStar autre_label) {
-    	return Double.compare(this.get_vol_oiseau(), autre_label.get_vol_oiseau());
-	}
-	
-	
-	
-	
 }
