@@ -94,7 +94,7 @@ public class BellmanFordAlgorithm extends ShortestPathAlgorithm {
             solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
             
             //Afin de comparer avec Dijkstra et A*
-            System.out.println(solution.getPath().getLength());
+            //System.out.println(solution.getPath().getLength());
         }
 
         return solution;

@@ -120,12 +120,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 		        				destination_iter.setPère(arc_courant);
 		        				//on place le noeud destination de l'arc dans le tas
 		        				tas.insert(destination_iter);
-		        				System.out.println("Cout label courant: " +destination_iter.getCost());
-		        				System.out.println("Cout label courant: " +destination_iter.getTotalCost()); //pour A*
+		        				//System.out.println("Cout label courant: " +destination_iter.getCost());
+		        				//System.out.println("Cout label courant: " +destination_iter.getTotalCost()); //pour A*
 		        				
 		        				//test de la validité du tas
 		        				if (tas.isValid()) {
-		        					System.out.println("Le tas est valide") ; 
+		        					//System.out.println("Le tas est valide") ; 
 		        				}
 		        			}
 	        		}
@@ -155,7 +155,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             //dans le cas oe le chemin est vide
             if(data.getOrigin().compareTo(data.getDestination()) == 0) { 
             	//solution
-            	System.out.println("Le chemin est vide") ; 
+            	//System.out.println("Le chemin est vide") ; 
                solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graphe,data.getOrigin()));
                 
             }else {
@@ -185,11 +185,11 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             	
                 //on crée la solution finale
                 solution = new ShortestPathSolution(data, Status.OPTIMAL, chemin_final);
-                System.out.println("Le chemin est valide") ; 
-                System.out.println(chemin_final.getLength()) ;
+                //System.out.println("Le chemin est valide") ; 
+                //System.out.println(chemin_final.getLength()) ;
                 
             } else {
-            	System.out.println("Le chemin n'est pas valide") ; 
+            	//System.out.println("Le chemin n'est pas valide") ; 
             }
       
         }
