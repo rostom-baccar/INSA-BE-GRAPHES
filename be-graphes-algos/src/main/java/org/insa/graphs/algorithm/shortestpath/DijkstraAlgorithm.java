@@ -68,10 +68,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         //Label utilisé dans les itérations pour faire avancer l'algo
         Label label_courant = null;
         
+      //Variable solution initialisée à null qui change selon la situation
+        ShortestPathSolution solution = null;
+        
         //Cette boucle tourne tant que le sommet destination n'est pas marqué ET tant que le tas n'est pas vide 
         //çad 
         //Cette boucle s'arrête quand le sommet destination est marqué OU quand le tas est vide 
-        while (!label_destination.getMarque() && !tas.isEmpty() ) {
+        while (!label_destination.getMarque() && !tas.isEmpty() && solution == null ) {
         	
         	//On extrait l'élément du tas avec le coût minimal: ça va être le label origine
         	label_courant = tas.deleteMin() ; 
@@ -136,12 +139,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         //Maintenant, tous les sommets ont été marqués (si tout s'est bien passé)
         
         //On traite maintenant les cas restants où il n'y a pas de solution
-        
-        ShortestPathSolution solution = null; //Variable initialisée à null qui change selon la situation
-        
+                
         //Si le sommet destination n'a pas de prédecesseur ou si celui-ci n'a pas été marqué (l'un entraîne l'autre normalement),
         //la solution n'existe pas
-		if(label_destination.getPère()==null || !label_destination.getMarque()) {
+		if((label_destination.getPère()==null && (data.getOrigin().compareTo(data.getDestination())!= 0)  ) || !label_destination.getMarque()) {
 			solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         } 
 		//Sinon, on a trouvé la destination
@@ -151,6 +152,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	// The destination has been found, notify the observers.
             notifyDestinationReached(data.getDestination());
    
+            //dans le cas oe le chemin est vide
+            if(data.getOrigin().compareTo(data.getDestination()) == 0) { 
+            	//solution
+            	System.out.println("Le chemin est vide") ; 
+               solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graphe,data.getOrigin()));
+                
+            }else {
+            
+            
             //On reconstitue le cheminc créé:
             //On crée une liste contenant tous les arcs menants à la destination
         	ArrayList<Arc> arcs = new ArrayList<>();
@@ -182,9 +192,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             	System.out.println("Le chemin n'est pas valide") ; 
             }
       
-            
-        	
         }
+		}
 		        return solution;
     }
 
