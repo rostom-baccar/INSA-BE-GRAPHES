@@ -146,13 +146,11 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     	}
     	//sinon on identifie l'index de l'élément à supprimer
     	else { 
-    		/* Index of x without using indexOf() */
 	    	try {
 	    		for(int i=0; i<this.size();i++) {
 	    			if(this.array.get(i).equals(x))
 	    				index = i;
 	    		}
-	    	/* if x not found, index set to -1 */
 	    	}catch(EmptyPriorityQueueException e) {
 	    		index = -1;
 	    	}
@@ -161,11 +159,11 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     	if(index == -1) {
 	    	throw new ElementNotFoundException(x);
     	}
-    	//une fois l'index de l'élément identifié, on associe son index au dernier élément de l'arbre
-    	//on récupère le dernier élément:
+    	//une fois l'index de l'élément identifié, on associe le dernier élément de l'arbre à l'élément d'index
+    	//la taille de l'arbre -1 (l'élément juste avant lui). L'élément en question n'existe donc plus dans l'arbre
     	E dernier_element= this.array.get(--this.currentSize);
     	this.arraySet(index, dernier_element);
-    	//enfin, une fois la structure de l'arbre respecté, on applique la règle du père et des fils:
+    	//enfin, une fois la structure de l'arbre respectée, on applique la règle du père et des fils:
     	//un père doit avoir une priorité supérieure ou égale à ses fils
     	//pour cela, et puisqu'on ne connait pas exactement la valeur de l'élément supprimé, on s'assure 
     	//de bien le placer dans l'arbre en faisant percolateDown et percolateUp

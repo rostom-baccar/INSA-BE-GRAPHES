@@ -606,8 +606,6 @@ public class Tests_algos_PCC {
 	// Les tests sont faits sur le graphe Carre car on n'a pas besoin d'un grand
 	// graphe pour un même noeud
 	// Tests en distance et en temps, avec plusieurs modes
-	//On vérifie que Dijkstra/AStar nous donne le même résultat que la classe Path avec 
-	//comme origine et destination le même noeud
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// MODE 0
