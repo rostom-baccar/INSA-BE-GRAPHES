@@ -36,10 +36,11 @@ public class Tests_algos_PCC {
 	private static Graph graphe_haute_garonne;
 	private static Graph graphe_toulouse;
 	private static Graph graphe_belgique;
+	private static Graph graphe_tunisie;
+	private static Graph graphe_cuba;
 
-	// déclaration de la liste des noeuds des graphes
+	// déclaration de la liste des noeuds des graphes (pour ces tests, on n'a besoin que des noeuds du graphe carre)
 	private static ArrayList<Node> noeuds_carre;
-	private static ArrayList<Node> noeuds_haute_garonne;
 
 	// déclarations paths
 	private static Path path_bikini_hg;
@@ -74,7 +75,15 @@ public class Tests_algos_PCC {
 	protected static ShortestPathSolution pcc_pathtest_org_dest_astar1;
 	protected static ShortestPathSolution pcc_pathtest_org_dest_dijkstra2;
 	protected static ShortestPathSolution pcc_pathtest_org_dest_astar2;
-
+	protected static ShortestPathSolution pcc_path_test_nopath_dijkstra0_tun;
+	protected static ShortestPathSolution pcc_path_test_nopath_astar0_tun;
+	protected static ShortestPathSolution pcc_path_test_nopath_dijkstra1_tun;
+	protected static ShortestPathSolution pcc_path_test_nopath_astar1_tun;
+	protected static ShortestPathSolution pcc_path_test_nopath_dijkstra0_cuba;
+	protected static ShortestPathSolution pcc_path_test_nopath_astar0_cuba;
+	protected static ShortestPathSolution pcc_path_test_nopath_dijkstra1_cuba;
+	protected static ShortestPathSolution pcc_path_test_nopath_astar1_cuba;
+	
 	@BeforeClass
 	public static void init() throws IOException {
 
@@ -113,6 +122,22 @@ public class Tests_algos_PCC {
 			graphe_belgique = reader_belgique.read();
 		} catch (Exception e) {
 		}
+		// tunisie
+		try {
+			String tunisie = "C:/Users/Rostom/Videos/_BE GRAPHES/BE-GRAPHES/Maps/tunisia.mapgr";
+			GraphReader reader_tunisie = new BinaryGraphReader(
+					new DataInputStream(new BufferedInputStream(new FileInputStream(tunisie))));
+			graphe_tunisie = reader_tunisie.read();
+		} catch (Exception e) {
+		}
+		// cuba
+		try {
+			String cuba = "C:/Users/Rostom/Videos/_BE GRAPHES/BE-GRAPHES/Maps/cuba.mapgr";
+			GraphReader reader_cuba = new BinaryGraphReader(
+					new DataInputStream(new BufferedInputStream(new FileInputStream(cuba))));
+			graphe_cuba = reader_cuba.read();
+		} catch (Exception e) {
+		}
 
 		// Récupération paths avec modes différents
 
@@ -143,9 +168,8 @@ public class Tests_algos_PCC {
 		} catch (Exception e) {
 		}
 
-		// on récupère les noeuds des graphes
+		// on récupère les noeuds des graphes (pour ces tests, on n'a besoin que des noeuds du graphe carre)
 		noeuds_carre = new ArrayList<>(graphe_carre.getNodes());
-		noeuds_haute_garonne = new ArrayList<>(graphe_haute_garonne.getNodes());
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Origine et Destinations randoms
@@ -338,8 +362,74 @@ public class Tests_algos_PCC {
 		// AStar
 		AStarAlgorithm pathtest_org_dest_astar2 = new AStarAlgorithm(pathtest_org_dest2);
 		pcc_pathtest_org_dest_astar2 = pathtest_org_dest_astar2.doRun();
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Graphe non connexe: chaque noeud dans une partie
+	//Vérification de la non existence du chemin
+	//Remarque: les noeuds ont été choisis suite à une exécution du programme où le résultat avec
+	//Bellman Ford présentait un chemin inexistant
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//Déclaration des noeuds qui donnent un chemin non existant avec Bellman Ford
+	//Tunisie
+	Node noeud_origine_nopath_tun=graphe_tunisie.get(282427);
+	Node noeud_destination_nopath_tun=graphe_tunisie.get(202288);
+	
+	//Cuba
+	//Déclaration des noeuds qui donnent un chemin non existant avec Bellman Ford
+	Node noeud_origine_nopath_cuba=graphe_cuba.get(190131);
+	Node noeud_destination_nopath_cuba=graphe_cuba.get(63528);
+	
+	//TUNISIE
+	//MODE 0
+	//PCC
+	ShortestPathData nopath0_tun = new ShortestPathData(graphe_tunisie, noeud_origine_nopath_tun,
+			noeud_destination_nopath_tun, ArcInspectorFactory.getAllFilters().get(0));
+	//Dijkstra
+	DijkstraAlgorithm nopath_dijkstra0 = new DijkstraAlgorithm(nopath0_tun);
+	pcc_path_test_nopath_dijkstra0_tun = nopath_dijkstra0.doRun();
+	//AStar
+	AStarAlgorithm nopath_astar0 = new AStarAlgorithm(nopath0_tun);
+	pcc_path_test_nopath_astar0_tun = nopath_astar0.doRun();
+	
+	//MODE 1
+	//PCC
+	ShortestPathData nopath1_tun = new ShortestPathData(graphe_tunisie, noeud_origine_nopath_tun,
+			noeud_destination_nopath_tun, ArcInspectorFactory.getAllFilters().get(1));
+	//Dijkstra
+	DijkstraAlgorithm nopath_dijkstra1_tun = new DijkstraAlgorithm(nopath1_tun);
+	pcc_path_test_nopath_dijkstra1_tun = nopath_dijkstra1_tun.doRun();
+	//AStar
+	AStarAlgorithm nopath_astar1_tun = new AStarAlgorithm(nopath1_tun);
+	pcc_path_test_nopath_astar1_tun = nopath_astar1_tun.doRun();
+	
+	//CUBA
+	//MODE 0
+	//PCC
+	ShortestPathData nopath0_cuba = new ShortestPathData(graphe_cuba, noeud_origine_nopath_cuba,
+			noeud_destination_nopath_cuba, ArcInspectorFactory.getAllFilters().get(0));
+	//Dijkstra
+	DijkstraAlgorithm nopath_dijkstra0_cuba = new DijkstraAlgorithm(nopath0_cuba);
+	pcc_path_test_nopath_dijkstra0_cuba = nopath_dijkstra0.doRun();
+	//AStar
+	AStarAlgorithm nopath_astar0cuba = new AStarAlgorithm(nopath0_cuba);
+	pcc_path_test_nopath_astar0_cuba = nopath_astar0cuba.doRun();
+	
+	//MODE 1
+	//PCC
+	ShortestPathData nopath1_cuba = new ShortestPathData(graphe_cuba, noeud_origine_nopath_cuba,
+			noeud_destination_nopath_cuba, ArcInspectorFactory.getAllFilters().get(1));
+	//Dijkstra
+	DijkstraAlgorithm nopath_dijkstra1_cuba = new DijkstraAlgorithm(nopath1_cuba);
+	pcc_path_test_nopath_dijkstra1_cuba = nopath_dijkstra1_cuba.doRun();
+	//AStar
+	AStarAlgorithm nopath_astar1_cuba = new AStarAlgorithm(nopath1_cuba);
+	pcc_path_test_nopath_astar1_cuba = nopath_astar1_cuba.doRun();
+	
+	
 	}
-
+	
 	// TESTS //
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -591,4 +681,60 @@ public class Tests_algos_PCC {
 		assertTrue(pcc_pathtest_org_dest_astar2.getPath().isValid());
 	}
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Graphe non connexe: chaque noeud dans une partie
+	//Vérification de la non existence du chemin
+	//Remarque: les noeuds ont été choisis suite à une exécution du programme où le résultat avec
+	//Bellman Ford présentait un chemin inexistant
+	//Test avec plusieurs graphes et différents noeuds
+//////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
+	//Graphe Tunisie
+	//MODE 0
+	//Dijkstra
+	@Test 
+	public void test_nopath_dijkstra_0_tun() {
+		assertEquals(pcc_path_test_nopath_dijkstra0_tun.getStatus(), AbstractSolution.Status.INFEASIBLE);
+	}
+	//AStar
+	@Test 
+	public void test_nopath_astar0_tun() {
+		assertEquals(pcc_path_test_nopath_astar0_tun.getStatus(), AbstractSolution.Status.INFEASIBLE);
+	}	
+	//MODE 1
+	//Dijkstra
+	@Test 
+	public void test_nopath_dijkstra1_tun() {
+		assertEquals(pcc_path_test_nopath_dijkstra1_tun.getStatus(), AbstractSolution.Status.INFEASIBLE);
+	}
+	//AStar
+	@Test 
+	public void test_nopath_astar1_tun() {
+		assertEquals(pcc_path_test_nopath_astar1_tun.getStatus(), AbstractSolution.Status.INFEASIBLE);
+	}	
+	
+	//Graphe Cuba
+	//MODE 0
+	//Dijkstra
+	@Test 
+	public void test_nopath_dijkstra_0_cuba() {
+		assertEquals(pcc_path_test_nopath_dijkstra0_cuba.getStatus(), AbstractSolution.Status.INFEASIBLE);
+	}
+	//AStar
+	@Test 
+	public void test_nopath_astar0_cuba() {
+		assertEquals(pcc_path_test_nopath_astar0_cuba.getStatus(), AbstractSolution.Status.INFEASIBLE);
+	}	
+	//MODE 1
+	//Dijkstra
+	@Test 
+	public void test_nopath_dijkstra1_cuba() {
+		assertEquals(pcc_path_test_nopath_dijkstra1_cuba.getStatus(), AbstractSolution.Status.INFEASIBLE);
+	}
+	//AStar
+	@Test 
+	public void test_nopath_astar_cuba() {
+		assertEquals(pcc_path_test_nopath_astar1_cuba.getStatus(), AbstractSolution.Status.INFEASIBLE);
+	}
+	
 }
