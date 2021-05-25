@@ -19,6 +19,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
  	   List<Node> nodes = graphe.getNodes();
  	   
  	   double coût = 0;
+ 	   int vitesse_max=Speed();
  	   
  	   //point de destination
  	   Point point_destination = data.getDestination().getPoint() ; 
@@ -34,13 +35,29 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
  			   
  		//si c'est le temps le plus court qui nous intéresse, on divise cette longueur par la vitesse 
  	       	} else {
- 	       	coût = noeud.getPoint().distanceTo(point_destination) / data.getMaximumSpeed(); 
+ 	       	coût = noeud.getPoint().distanceTo(point_destination) / vitesse_max; 
  	       	}
  		  labels[noeud.getId()].set_vol_oiseau(coût);
  	   }
  	   return labels ; 
      }
-    
+    // pour éviter le problème des sommets marqués qui font des cercles
+    private int Speed() {
+ 	   int maxspeed_data =  data.getMaximumSpeed() ; 
+ 	   int maxspeed_graphe = graphe.getGraphInformation().getMaximumSpeed() ;
+ 	   int Speed = Math.min(maxspeed_data, maxspeed_graphe) ; 
+ 	   
+ 	   if (maxspeed_data ==  GraphStatistics.NO_MAXIMUM_SPEED && maxspeed_graphe ==  GraphStatistics.NO_MAXIMUM_SPEED ) {
+ 		   Speed = 130 ;
+ 	   }
+ 	   if (maxspeed_data ==  GraphStatistics.NO_MAXIMUM_SPEED) {
+ 		   Speed = maxspeed_graphe; 
+ 	   }
+ 	   if (maxspeed_graphe ==  GraphStatistics.NO_MAXIMUM_SPEED) {
+ 		   Speed = maxspeed_data; 
+ 	   }
+ 	return Speed ; 
+    }
     
     
     
